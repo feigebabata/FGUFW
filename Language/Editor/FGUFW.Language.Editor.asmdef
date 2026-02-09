@@ -1,0 +1,19 @@
+{
+    "name": "FGUFW.MultiLanguage.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8ae454404f5509f41a33482dd8d129b7",
+        "GUID:559fbe227f95568448fca764eab257dd",
+        "GUID:e09be88b8091a53478ca721293aac259",
+        "GUID:44f67385dce124e428e851a5f02fc778"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

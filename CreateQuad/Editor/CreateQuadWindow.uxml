@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Vector2Field label="宽高" name="sizeField" x="1" y="1" />
+    <ui:Vector2Field label="轴点(0-1)" name="pivotField" x="0.5" y="0.5" />
+    <ui:TextField picking-mode="Ignore" label="文件名:" name="nameField" value="new mesh" />
+    <ui:Button text="创建" display-tooltip-when-elided="true" name="confirm_Btn" />
+</ui:UXML>

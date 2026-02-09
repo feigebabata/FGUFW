@@ -1,0 +1,17 @@
+{
+    "name": "FGUFW.LocalConfig",
+    "rootNamespace": "",
+    "references": [
+        "GUID:559fbe227f95568448fca764eab257dd",
+        "GUID:44f67385dce124e428e851a5f02fc778"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

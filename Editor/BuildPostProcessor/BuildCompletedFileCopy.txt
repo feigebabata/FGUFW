@@ -1,0 +1,6 @@
+//格式:文件或文件夹路径>目标路径 每一行为一项 " > "为分隔符>左右有一个空格 "//"是注释头 "Local:"开头表示为项目局部路径 "BuildOutPath:"为项目输出路径
+
+//打包后替换Ios接口文件
+Local:IOS_Data/UnityAppController.h > BuildOutPath:Classes/UnityAppController.h
+Local:IOS_Data/UnityAppController.mm > BuildOutPath:Classes/UnityAppController.mm
+

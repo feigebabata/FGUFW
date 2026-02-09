@@ -1,0 +1,18 @@
+{
+    "name": "FGUFW.MonoGameplay.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2763510ebba59ca40ba7c37e3587ae57",
+        "GUID:559fbe227f95568448fca764eab257dd",
+        "GUID:990ea1e6d30eaf74998e8227b8252928"
+    ],
+    "includePlatforms": ["Editor"],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

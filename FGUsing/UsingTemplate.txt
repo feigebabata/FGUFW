@@ -1,0 +1,63 @@
+using System.Collections;
+using FGUFW;
+using LitJson;
+using UnityEngine;
+using System;
+using System.Diagnostics;
+
+public static class UsingTemplate
+{
+    #region 日志
+
+
+
+    #endregion
+
+    #region Math
+
+
+
+    #endregion
+
+    #region 资源加载
+
+
+
+    #endregion
+
+    #region 配置读取
+
+
+
+    #endregion
+
+    #region 存档读写
+
+
+
+    #endregion
+
+    #region 特效播放
+
+
+
+    #endregion
+
+    #region 音效播放
+
+
+
+    #endregion
+
+    #region 广告播放
+
+
+
+    #endregion
+
+    #region 支付调用
+
+
+
+    #endregion
+}

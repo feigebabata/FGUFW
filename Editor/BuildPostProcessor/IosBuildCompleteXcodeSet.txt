@@ -1,0 +1,7 @@
+// 添加框架格式"AddFramework:CoreTelephony.framework" 添加到Info.plist格式"AddPlistString:NSUserTrackingUsageDescription:We use your information to..."注意分割符:不要重复
+
+AddFramework:CoreTelephony.framework
+AddFramework:AdSupport.framework
+AddFramework:WebKit.framework
+
+AddPlistString:NSUserTrackingUsageDescription:We use your information to provide personalized ads and enhance your experience.

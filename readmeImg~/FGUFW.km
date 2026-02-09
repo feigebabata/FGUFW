@@ -1,0 +1,376 @@
+{
+    "root": {
+        "data": {
+            "id": "d8i8bybs4w80",
+            "created": 1742183002298,
+            "text": "FGUFW"
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "d8i8cagne8w0",
+                    "created": 1742183028713,
+                    "text": "level_0"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "d8i8ceppvvs0",
+                            "created": 1742183037969,
+                            "text": "日志系统"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "d8i8e2fz5cw0",
+                                    "created": 1742183167987,
+                                    "text": "日志文件"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "d8i8ec9pmag0",
+                                    "created": 1742183189376,
+                                    "text": "宏控制"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "d8i8chinaoo0",
+                    "created": 1742183044072,
+                    "text": "level_1"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "d8i8ckyho880",
+                            "created": 1742183051560,
+                            "text": "类扩展"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "d8i8cp2ahyo0",
+                            "created": 1742183060497,
+                            "text": "工具类"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "d8i8cs4r2v40",
+                            "created": 1742183067176,
+                            "text": "通用组件"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "d8ll8l19zxc0",
+                            "created": 1742524092571,
+                            "text": "编辑器管线"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "d8ll8rjftf40",
+                                    "created": 1742524106729,
+                                    "text": "资源导入加工"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "d8ll90fyu000",
+                                    "created": 1742524126111,
+                                    "text": "打包预处理"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "d8i8d96ryvs0",
+                    "created": 1742183104304,
+                    "text": "level_2"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "d8ia3pmse5s0",
+                            "created": 1742187998679,
+                            "text": "资产管理"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "d8r1tmwj2c00",
+                                    "created": 1743078679826,
+                                    "text": "Addressables"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "d8ia4b8zuw80",
+                            "created": 1742188045734,
+                            "text": "网络管理"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "d8r1m0ivp6g0",
+                                    "created": 1743078082563,
+                                    "text": "Mirror"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "d8r1mctf73k0",
+                                    "created": 1743078109321,
+                                    "text": "Steamworks"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "d8r1od37gjc0",
+                                    "created": 1743078266641,
+                                    "text": "房主主机"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "d8ia583a34o0",
+                            "created": 1742188117222,
+                            "text": "文件管理"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "d8ia6juptgo0",
+                    "created": 1742188221190,
+                    "text": "level_3",
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "d8ia6pvwdgo0",
+                            "created": 1742188234322,
+                            "text": "热更新"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "d8r1tisbuwo0",
+                                    "created": 1743078670865,
+                                    "text": "HybridCLR"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "d8iaipuf1j40",
+                            "created": 1742189174602,
+                            "text": "JobSystem"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "d8r3b3a5qa00",
+                                    "created": 1743082868780,
+                                    "text": "TransformAccessArray"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "d8r3c2nxtsw0",
+                                    "created": 1743082945800,
+                                    "text": "RaycastCommand"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "d8r3cr2avj40",
+                                    "created": 1743082998912,
+                                    "text": "OverlapBoxCommand"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "d8r3es3m1wg0",
+                                    "created": 1743083157896,
+                                    "text": "BoxcastCommand"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "d8iajst6xq80",
+                            "created": 1742189259423,
+                            "text": "ComputeShader"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "d8iak0kqg800",
+                            "created": 1742189276326,
+                            "text": "VisualScripting"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "d8k26c2ia6o0",
+                            "created": 1742368755281,
+                            "text": "InputSystem"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "d8ia88yzeyg0",
+                    "created": 1742188354231,
+                    "text": "level_4",
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "d8ia8rrkc740",
+                            "created": 1742188395142,
+                            "text": "Gameplay管理"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "d8ia95nezf40",
+                            "created": 1742188425366,
+                            "text": "寻路系统"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "d8iaanafly80",
+                            "created": 1742188542127,
+                            "text": "战斗系统"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "d8k243nti8w0",
+                                    "created": 1742368580250,
+                                    "text": "世界"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "d8k26tgu1mo0",
+                                            "created": 1742368793152,
+                                            "text": "ECS"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "d8k24cg55xs0",
+                                    "created": 1742368599377,
+                                    "text": "控制"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "d8k276mp95k0",
+                                            "created": 1742368821805,
+                                            "text": "自动化操作UI"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "d8iafd8cae80",
+                            "created": 1742188912054,
+                            "text": "本地化支持"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "d8iaftqo7a80",
+                                    "created": 1742188947991,
+                                    "text": "多语言自动翻译"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "d8iad90cb6o0",
+                            "created": 1742188746134,
+                            "text": "配置系统"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "d8iadfh4t6w0",
+                                    "created": 1742188760210,
+                                    "text": "自检系统"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "d8iaevx6r340",
+                                    "created": 1742188874374,
+                                    "text": "临时资产生成"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "filetree",
+    "theme": "fresh-green",
+    "version": "1.4.43"
+}

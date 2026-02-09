@@ -1,0 +1,4 @@
+<linker>
+    <assembly fullname="Unity.Burst" preserve="all"/>
+    <assembly fullname="UnityEngine.CoreModule" preserve="all"/>
+</linker>
