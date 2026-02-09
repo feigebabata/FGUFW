@@ -9,34 +9,40 @@ namespace FGUFW
         /// <summary>
         /// 包含
         /// </summary>
-        public static bool Contains(UInt64 source,UInt64 target)
+        public static bool Contains(long source,int bitIdx)
         {
-            return (source&target) == target;
+            long bit = 1;
+            bit = bit << bitIdx;
+            return (source&bit) == bit;
         }
 
         /// <summary>
         /// 添加
         /// </summary>
-        public static UInt64 Add(UInt64 source,UInt64 target)
+        public static long Add(long source,int bitIdx)
         {
-            return source|target;
+            long bit = 1;
+            bit = bit << bitIdx;
+            return source|bit;
         }
 
         /// <summary>
         /// 减去
         /// </summary>
-        public static UInt64 Sub(UInt64 source,UInt64 target)
+        public static long Remove(long source,int bitIdx)
         {
-            target = ~target;
-            return source|target;
+            long bit = 1;
+            bit = bit << bitIdx;
+            bit = ~bit;
+            return source|bit;
         }
 
         /// <summary>
         /// 交叉
         /// </summary>
-        public static bool Overlap(UInt64 v1,UInt64 v2)
+        public static bool Overlap(long v1,long v2)
         {
-            return (v1&v2) != 0;
+            return (v1&v2) != default;
         }
 
     }
