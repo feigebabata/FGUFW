@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using FGUFW.Platform;
 using FGUFW;
 using System;
 using UnityEditor.Build;

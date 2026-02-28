@@ -2,54 +2,59 @@ using System;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Jobs;
 
 namespace FGUFW.SimpleECS
 {
-    public class MovementSystem : SystemBase
+    public class MovementSystem : ISystem
     {
-        public override Type[] GetComponents()
+        private Archetype _filterArchetype;
+
+        public MovementSystem()
         {
-            return new Type[]
-            {
-                typeof(Velocity)
-            };
+            _filterArchetype = this.GenerateFilterArchetype
+            (
+                TransformAccessBuffer.MetaId,
+                ComponentMeta<Velocity>.Id
+            );
         }
 
-        public override void Execute(WorldBase world, ref JobHandle jobHandle)
+        public void Execute(WorldBase world, ref JobHandle jobHandle)
         {
             var job = new MovementSystemJob
             {
-                EntityMasks = world.EntityMasks,
-                FilterMask = FilterMask,
+                EntityArchetypes = world.EntityArchetypes.AsParallelReader(),
+                FilterArchetype = _filterArchetype,
                 DeltaTime = Time.fixedDeltaTime,
-                Velocities = world.GetComponents<Velocity>()
+                Velocities = world.GetComponents<Velocity>().AsParallelReader()
             };
 
             jobHandle = job.Schedule(world.GetTransformAccessArray(),jobHandle);
             
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
             
         }
 
         public struct MovementSystemJob : IJobParallelForTransform
         {
-            public NativeList<long> EntityMasks;
-            public long FilterMask;
+            public NativeArray<Archetype>.ReadOnly EntityArchetypes;
+            public Archetype FilterArchetype;
             public float DeltaTime;
-            public NativeList<Velocity> Velocities;
+            public NativeArray<Velocity>.ReadOnly Velocities;
 
             public void Execute(int index, TransformAccess transform)
             {
-                var entityMask = EntityMasks[index];
-                if((entityMask&FilterMask) != FilterMask)return;
+                if(!EntityArchetypes[index].HasAll(FilterArchetype))return;
 
-                var velocity = Velocities[index];
-                transform.position += velocity.Value*DeltaTime;
+                var velocity = Velocities[index].Value;
+                float3 position = transform.position;
+                position += velocity*DeltaTime;
+                transform.position = position;
             }
         }
     }

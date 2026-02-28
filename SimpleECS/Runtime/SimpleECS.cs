@@ -21,86 +21,112 @@ namespace FGUFW.SimpleECS
 */
     public abstract class WorldBase:IDisposable
     {
-        internal NativeList<long> EntityMasks;//组件类型不超过64个
-        private List<SystemBase> _systems;
-        private int _nextEntityId;
+        internal NativeList<Archetype> EntityArchetypes;//组件类型不超过64个
+        protected List<ISystem> _systems;
+
         private NativeHashMap<int,int> _entity2Indexs;
+        private int _nextEntityId;
         private int _entityCount;
-        private List<Type> _registerCompTypes;
 
-        public abstract NativeList<T> GetComponents<T>() where T:unmanaged,IComponent;
+        internal Dictionary<int,IComponentBuffer> _componentBuffers;
 
-        /// <summary>
-        /// 登记要用的系统
-        /// </summary>
-        public abstract void RegisterSystems();
 
         /// <summary>
-        /// 登记所有的组件类型 不能漏
+        /// 登记要用的系统 同时决定执行顺序
         /// </summary>
-        /// <returns></returns>
-        public abstract List<Type> RegisterComponentTypes();
+        protected abstract void RegisterSystems();
 
-        public void Initial(int Capacity)
+        /// <summary>
+        /// 登记要用的组件
+        /// </summary>
+        protected abstract void RegisterComponentBuffers(int entityCapacity);
+
+        public WorldBase(int entityCapacity)
         {
-            _systems = new List<SystemBase>();
+            _systems = new List<ISystem>();
 
-            EntityMasks = new NativeList<long>(Capacity,Allocator.Persistent);
-            _entity2Indexs = new NativeHashMap<int, int>(Capacity,Allocator.Persistent);
+            EntityArchetypes = new NativeList<Archetype>(entityCapacity,Allocator.Persistent);
+            _entity2Indexs = new NativeHashMap<int, int>(entityCapacity,Allocator.Persistent);
+            _componentBuffers = new();
 
+            RegisterComponentBuffers(entityCapacity);
             RegisterSystems();
 
-            _registerCompTypes = RegisterComponentTypes();
+            Assert.IsTrue(_componentBuffers.Count<=Archetype.Length,$"_componentBuffers.Count:{_componentBuffers.Count} 不能超过Archetype.Length:{Archetype.Length}!");
+        }
 
-            Assert.IsTrue(_registerCompTypes.Count<=64,$"compTypes.Count:{_registerCompTypes.Count} 不能超过64!");
+        public NativeList<T> GetComponents<T>() where T:unmanaged,IComponent
+        {
+            var typeId = ComponentMeta<T>.Id;
+            var componentBuffer = _componentBuffers[typeId] as ComponentBuffer<T>;
+            return componentBuffer.List;
+        }
 
-            foreach (var system in _systems)
-            {
-                var c_types = system.GetComponents();
-                long filterMask = 0;
-                foreach (var c_t in c_types)
-                {
-                    int bit_idx = _registerCompTypes.IndexOf(c_t);
+        public TransformAccessArray GetTransformAccessArray()
+        {
+            var typeId = TransformAccessBuffer.MetaId;
+            var componentBuffer = _componentBuffers[typeId] as TransformAccessBuffer;
+            return componentBuffer.List;
+        }
 
-                    Assert.IsTrue(bit_idx!=-1,$"未登记组件类型:{c_t.FullName}!");
+        public void SetComponent<T>(int entityId,T comp) where T:unmanaged,IComponent
+        {
+            var comp_idx = EntityIdToComponentsIndex(entityId);
+            var entityArchetype = EntityArchetypes[comp_idx];
+            var typeId = ComponentMeta<T>.Id;
 
-                    filterMask &= 1<<bit_idx;
-                }
-                system.FilterMask = filterMask;
-            }
+            var components = GetComponents<T>();
+            components[comp_idx] = comp;
+
+            entityArchetype.Add(typeId);
+            EntityArchetypes[comp_idx] = entityArchetype;
+        }
+
+        public void SetTransformAccess(int entityId,Transform comp)
+        {
+            var comp_idx = EntityIdToComponentsIndex(entityId);
+            var entityArchetype = EntityArchetypes[comp_idx];
+            var typeId = TransformAccessBuffer.MetaId;
+
+            var components = GetTransformAccessArray();
+            components[comp_idx] = comp;
+
+            entityArchetype.Add(typeId);
+            EntityArchetypes[comp_idx] = entityArchetype;
         }
 
         public int CreateEntity()
         {
             int entityId = _nextEntityId++;
-            _entity2Indexs.Add(entityId,_entityCount);
-            _entityCount++;
+            _entity2Indexs.Add(entityId,_entityCount++);
 
-            EntityMasks.Add(default);
+            EntityArchetypes.Add(default);
+            foreach (var componentBuffer in _componentBuffers.Values)
+            {
+                componentBuffer.AddDefault();
+            }
 
             return entityId;
         }
 
-        protected void onAddComponent<T>(int entityId) where T:unmanaged,IComponent
+        public void DestroyEntity(int entityId)
         {
-            var comp_idx = entityIdToComponentsIndex(entityId);
-            var compType = typeof(T);
-
-            var bit_idx = _registerCompTypes.IndexOf(compType);
-            EntityMasks[comp_idx] = Bit64Helper.Add(EntityMasks[comp_idx],bit_idx);
-        }
-
-        protected void onRemoveComponent<T>(int entityId) where T:unmanaged,IComponent
-        {
-            var comp_idx = entityIdToComponentsIndex(entityId);
-            var compType = typeof(T);
-
-            var bit_idx = _registerCompTypes.IndexOf(compType);
+            int compIdx = EntityIdToComponentsIndex(entityId);
             
-            EntityMasks[comp_idx] = Bit64Helper.Remove(EntityMasks[comp_idx],bit_idx);
+            foreach (var componentBuffer in _componentBuffers.Values)
+            {
+                componentBuffer.RemoveAtSwapBack(compIdx);
+            }
+
+            EntityArchetypes.RemoveAtSwapBack(compIdx);
+            _entity2Indexs.Remove(entityId);
+
+            _entityCount--;
         }
 
-        protected int entityIdToComponentsIndex(int entityId)
+
+
+        public int EntityIdToComponentsIndex(int entityId)
         {
             Assert.IsTrue(_entity2Indexs.ContainsKey(entityId));
 
@@ -121,32 +147,21 @@ namespace FGUFW.SimpleECS
 
         public virtual void Dispose()
         {
+            foreach (var componentBuffer in _componentBuffers.Values)
+            {
+                componentBuffer.Dispose();
+            }
             foreach (var system in _systems)
             {
                 system.Dispose();
             }
 
-            EntityMasks.Dispose();
+            EntityArchetypes.Dispose();
             _entity2Indexs.Dispose();
         }
-
-        public virtual TransformAccessArray GetTransformAccessArray()
-        {
-            return default;
-        }
     }
 
-    public abstract class SystemBase:IDisposable
-    {
-        internal long FilterMask;
 
-        public abstract Type[] GetComponents();
 
-        public abstract void Execute(WorldBase world,ref JobHandle jobHandle);    
-
-        public abstract void Dispose();
-    }
-
-    public interface IComponent{}
 
 }

@@ -5,6 +5,6 @@ namespace FGUFW.SimpleECS
 {
     public struct Velocity:IComponent
     {
-        public Vector3 Value;
+        public float3 Value;
     }
 }
