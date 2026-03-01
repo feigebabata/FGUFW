@@ -369,5 +369,87 @@ namespace FGUFW
             }
         }
 
+        /// <summary>
+        /// 逐级向上查找
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <param name="includeInactive">仅限活动的对象</param>
+        /// <returns></returns>
+        public static T GetObjectFormUpOrSelf<T>(this Transform self, bool includeInactive)
+        {
+            T obj = default;
+
+            do
+            {
+                if(includeInactive)
+                {
+                    if(self.gameObject.activeSelf)
+                    {
+                        obj = self.GetComponent<T>();
+                    }
+                }
+                else
+                {
+                    obj = self.GetComponent<T>();
+                }
+
+                if(!EqualityComparer<T>.Default.Equals(obj, default))
+                {
+                    return obj;
+                }
+
+                if(self.GetSiblingIndex()==0)
+                {
+                    self = self.parent;
+                }
+                else if(self.parent!=default)
+                {
+                    self = self.parent.GetChild(self.GetSiblingIndex()-1);
+                }
+            }
+            while (self.parent!=default);
+
+            return default;
+        }
+                
+        public static T GetObjectFormUp<T>(this Transform self, bool includeInactive)
+        {
+            T obj = default;
+
+            do
+            {
+
+                if(self.GetSiblingIndex()==0)
+                {
+                    self = self.parent;
+                }
+                else if(self.parent!=default)
+                {
+                    self = self.parent.GetChild(self.GetSiblingIndex()-1);
+                }
+                
+                if(includeInactive)
+                {
+                    if(self.gameObject.activeSelf)
+                    {
+                        obj = self.GetComponent<T>();
+                    }
+                }
+                else
+                {
+                    obj = self.GetComponent<T>();
+                }
+
+                if(!EqualityComparer<T>.Default.Equals(obj, default))
+                {
+                    return obj;
+                }
+            }
+            while (self.parent!=default);
+
+            return default;
+        }
+
     }
 }

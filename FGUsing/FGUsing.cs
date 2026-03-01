@@ -2,7 +2,6 @@ using System.Collections;
 using FGUFW;
 using LitJson;
 using UnityEngine;
-using FGUFW.MonoGameplay;
 using System;
 using UnityEngine.SceneManagement;
 
@@ -80,30 +79,30 @@ public static class FGUsing
 
     #region AssetHelper
 
-    public static T load<T>(string path)
-    {
-        return AssetHelper.Load<T>(path);
-    }
+    // public static T load<T>(string path)
+    // {
+    //     return AssetHelper.Load<T>(path);
+    // }
 
-    public static UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<T> loadAsync<T>(string path)
-    {
-        return AssetHelper.LoadAsync<T>(path);
-    }
+    // public static UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<T> loadAsync<T>(string path)
+    // {
+    //     return AssetHelper.LoadAsync<T>(path);
+    // }
 
-    public static GameObject copy(string path, Transform parent = default)
-    {
-        return AssetHelper.Copy(path, parent);
-    }
+    // public static GameObject copy(string path, Transform parent = default)
+    // {
+    //     return AssetHelper.Copy(path, parent);
+    // }
 
-    public static UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GameObject> copyAsync(string path, Transform parent = default)
-    {
-        return AssetHelper.CopyAsync(path, parent);
-    }
+    // public static UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GameObject> copyAsync(string path, Transform parent = default)
+    // {
+    //     return AssetHelper.CopyAsync(path, parent);
+    // }
 
-    public static UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<UnityEngine.ResourceManagement.ResourceProviders.SceneInstance> loadSceneAsync(string path,LoadSceneMode loadSceneMode= LoadSceneMode.Single)
-    {
-        return AssetHelper.LoadSceneAsync(path,loadSceneMode);
-    }
+    // public static UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<UnityEngine.ResourceManagement.ResourceProviders.SceneInstance> loadSceneAsync(string path,LoadSceneMode loadSceneMode= LoadSceneMode.Single)
+    // {
+    //     return AssetHelper.LoadSceneAsync(path,loadSceneMode);
+    // }
 
     #endregion
 
@@ -179,13 +178,7 @@ public static class FGUsing
 
     #endregion
 
-    #region MonoGameplay
-    public static void savePartConfig()
-    {
-        PartConfigUtility.Save();
-    }
 
-    #endregion
 
 
 

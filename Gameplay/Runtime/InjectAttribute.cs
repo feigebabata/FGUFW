@@ -6,6 +6,11 @@ namespace FGUFW.Gameplay
     {
         public InjectField Field = InjectField.Default;
 
+        public InjectAttribute()
+        {
+            
+        }
+
         public InjectAttribute(InjectField field)
         {
             Field = field;

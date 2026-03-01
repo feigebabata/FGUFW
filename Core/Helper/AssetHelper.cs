@@ -7,49 +7,39 @@ using System.Threading.Tasks;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 
 namespace FGUFW
 {
     public static class AssetHelper
     {
+        static IAssetLoader assetLoader = new Addressable_AssetLoader();
+        static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-        public static AsyncOperationHandle<T> LoadAsync<T>(string path)
+        public static UniTask<T> LoadAsync<T>(string path)
         {
-            return Addressables.LoadAssetAsync<T>(path);
-        }
-
-        public static AsyncOperationHandle<IList<T>> LoadsAsync<T>(string path,Action<T> callback=null)
-        {
-            return Addressables.LoadAssetsAsync<T>(path,callback);
+            return assetLoader.LoadAsync<T>(path,cancellationTokenSource.Token);
         }
 
         public static T Load<T>(string path)
         {
-            return Addressables.LoadAssetAsync<T>(path).WaitForCompletion();
+            return assetLoader.Load<T>(path);
         }
 
-        public static IList<T> Loads<T>(string path)
+        public static UniTask<GameObject> CopyAsync(string path,Transform parent)
         {
-            return Addressables.LoadAssetsAsync<T>(path,null).WaitForCompletion();
-        }
-
-        public static AsyncOperationHandle<GameObject> CopyAsync(string path,Transform parent)
-        {
-            return Addressables.InstantiateAsync(path,parent);
+            return assetLoader.CopyAsync(path,parent,cancellationTokenSource.Token);
         }
 
         public static GameObject Copy(string path,Transform parent)
         {
-            return Addressables.InstantiateAsync(path,parent).WaitForCompletion();
+            return assetLoader.Copy(path,parent);
         }
 
-        public static SceneInstance LoadScene(string path)
+        public static UniTask LoadSceneAsync(string path,LoadSceneMode loadSceneMode = LoadSceneMode.Single)
         {
-            return Addressables.LoadSceneAsync(path).WaitForCompletion();
-        }
-        public static AsyncOperationHandle<SceneInstance> LoadSceneAsync(string path,LoadSceneMode loadSceneMode = LoadSceneMode.Single)
-        {
-            return Addressables.LoadSceneAsync(path,loadSceneMode);
+            return assetLoader.LoadSceneAsync(path,loadSceneMode);
         }
 
 
