@@ -1,13 +1,15 @@
 {
-    "name": "FGUFW.MultiLanguage.Editor",
+    "name": "FGUFW.I18N.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:8ae454404f5509f41a33482dd8d129b7",
+        "GUID:44f67385dce124e428e851a5f02fc778",
+        "GUID:2e4fa7219dddd05458cea145ec13d27e",
         "GUID:559fbe227f95568448fca764eab257dd",
-        "GUID:e09be88b8091a53478ca721293aac259",
-        "GUID:44f67385dce124e428e851a5f02fc778"
+        "GUID:7ea449b33bb3c5048ae9987852b3cee7"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

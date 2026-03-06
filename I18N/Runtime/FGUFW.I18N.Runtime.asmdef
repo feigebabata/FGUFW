@@ -1,8 +1,10 @@
 {
-    "name": "FGUFW.MultiLanguage",
+    "name": "FGUFW.I18N.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:559fbe227f95568448fca764eab257dd"
+        "GUID:44f67385dce124e428e851a5f02fc778",
+        "GUID:559fbe227f95568448fca764eab257dd",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
