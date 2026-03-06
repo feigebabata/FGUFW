@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace FGUFW.Gameplay
 {
+    /// <summary>
+    /// 业务功能的大模块单位
+    /// </summary>
     public abstract class Play:Part
     {
         protected override void OnPartInitialed()

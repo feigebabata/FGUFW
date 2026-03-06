@@ -28,7 +28,7 @@ namespace FGUFW.ExcelUtils
                 {
                     sheetToJson(sheet, jsonBuilder);
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     Debug.LogError($"ExcelCsharpToJson:{name}.{sheet.SheetName} \n{ex.Message}\n{ex.StackTrace}");
                 }
@@ -41,7 +41,6 @@ namespace FGUFW.ExcelUtils
             jsonBuilder.Append('}');
 
             var directory = Path.Combine(Application.dataPath, "ECJsonData");
-
 
             if (!Directory.Exists(directory))
             {

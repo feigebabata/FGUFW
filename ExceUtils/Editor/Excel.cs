@@ -15,10 +15,13 @@ namespace FGUFW.ExcelUtils
 
         public int SheetCount => _workbook.NumberOfSheets;
 
+        private string _excelPath;
+
         private Excel(){}
 
         public Excel(string excelPath)
         {
+            _excelPath = excelPath;
             // 判断 Excel 格式
             // try
             // {
@@ -69,6 +72,29 @@ namespace FGUFW.ExcelUtils
 
         public void Dispose()
         {
+            _workbook.Close();
+        }
+
+        public void Save()
+        {
+            var tempPath = $"{_excelPath}.temp";
+            try
+            {
+                using (FileStream stream = new FileStream(tempPath, FileMode.Create, FileAccess.Write))
+                {
+                    _workbook.Write(stream);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError(ex.Message);
+                return;
+            }
+
+            File.Delete(_excelPath);
+            File.Copy(tempPath,_excelPath);
+            File.Delete(tempPath);
+            
             _workbook.Close();
         }
     }

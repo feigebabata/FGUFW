@@ -7,10 +7,13 @@ using UnityEngine;
 
 namespace FGUFW.Gameplay
 {
-    public abstract class PartFieldInjector:MonoBehaviour
+    /// <summary>
+    /// Part的依赖注入容器
+    /// </summary>
+    public abstract class PartDIContainer:MonoBehaviour
     {
         // protected bool initialed;
-        protected Dictionary<Type,object> defaultFieldDatas= new();
+        protected Dictionary<Type,object> defaultDependency= new();
 
         public async UniTask TryInject(Part part,CancellationToken partTaskCancellationToken)
         {
@@ -53,8 +56,6 @@ namespace FGUFW.Gameplay
         //     }
         // }
 
-        protected abstract void injectSaveField(Part part,FieldInfo f_info);
-
         protected abstract UniTask injectUIField(Part part,FieldInfo f_info,CancellationToken partTaskCancellationToken);
 
         protected void injectDefaultField(Part part,FieldInfo f_info)
@@ -62,12 +63,33 @@ namespace FGUFW.Gameplay
             var fieldType = f_info.FieldType;
             object fieldData = default;
             
-            if(!defaultFieldDatas.TryGetValue(fieldType,out fieldData))
+            if(!defaultDependency.TryGetValue(fieldType,out fieldData))
             {
                 Debug.LogWarning($"{name}未注册{fieldType.FullName}!");
                 return;
             }
             f_info.SetValue(part,fieldData);
+        }
+
+        protected void injectSaveField(Part part,FieldInfo f_info)
+        {
+            var fieldType = f_info.FieldType;
+            object fieldData = PartSaveUtility.Get(fieldType);
+            f_info.SetValue(part,fieldData);
+        }
+
+        public static void DestroyPlay<T>() where T: Play
+        {
+            var play = GameObject.FindFirstObjectByType<T>(FindObjectsInactive.Include);
+            Destroy(play.gameObject);
+        }
+
+        public static void CreatePlay<T>()
+        {
+            var playName = typeof(T).Name;
+            var key = $"Assets/Develop/{playName}/{playName}.unity";
+            
+            AssetHelper.LoadSceneAsync(key);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace FGUFW.Gameplay
             tryInitial().Forget();
         }
 
-        void ODestroy()
+        void OnDestroy()
         {
             OnPartDestroy();
         }
@@ -57,9 +57,9 @@ namespace FGUFW.Gameplay
 
         private async UniTask injectField()
         {
-            var partFieldInjector = FindPartFieldInjector(transform);
+            var partDIContainer = FindPartDIContainer(transform);
 
-            await partFieldInjector.TryInject(this,partTaskCancellationToken);
+            await partDIContainer.TryInject(this,partTaskCancellationToken);
         }
 
         private async UniTask waitPrevPartInitialed()
@@ -73,17 +73,17 @@ namespace FGUFW.Gameplay
             prevPart = default;
         }
 
-        public static PartFieldInjector FindPartFieldInjector(Transform node)
+        public static PartDIContainer FindPartDIContainer(Transform node)
         {
-            PartFieldInjector partFieldInjector=node.GetObjectFormUpOrSelf<PartFieldInjector>(true);
+            PartDIContainer partDIContainer=node.GetObjectFormUpOrSelf<PartDIContainer>(true);
 
-            if(partFieldInjector==default)
+            if(partDIContainer==default)
             {
-                partFieldInjector = GameObject.FindFirstObjectByType<PartFieldInjector>(FindObjectsInactive.Exclude);
+                partDIContainer = GameObject.FindFirstObjectByType<PartDIContainer>(FindObjectsInactive.Exclude);
                 
             }
 
-            return partFieldInjector;
+            return partDIContainer;
         }
 
 

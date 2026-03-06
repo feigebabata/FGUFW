@@ -6,25 +6,27 @@ using UnityEngine;
 
 namespace FGUFW.Gameplay
 {
-    
-    public static class PartConfigUtility
+    /// <summary>
+    /// Part的存档工具
+    /// </summary>
+    public static class PartSaveUtility
     {
-        static Dictionary<string,object> partConfigs;
+        static Dictionary<string,object> partSaves;
         static string filePath;
 
         [RuntimeInitializeOnLoadMethod]
         static void initialize()
         {
-            filePath = Path.Combine(Application.persistentDataPath, "PartConfigs.json");
+            filePath = Path.Combine(Application.persistentDataPath, "PartSaves.json");
 
             if (File.Exists(filePath))
             {
                 var json = File.ReadAllText(filePath);
-                partConfigs = JsonMapper.ToObject<Dictionary<string,object>>(json);
+                partSaves = JsonMapper.ToObject<Dictionary<string,object>>(json);
             }
             else
             {
-                partConfigs = new();
+                partSaves = new();
             }
 
             Application.quitting += quiting;
@@ -40,17 +42,17 @@ namespace FGUFW.Gameplay
         {
             var key = type.FullName;
 
-            object partData = default;
-            if(!partConfigs.TryGetValue(key,out partData))
+            object partSaveData = default;
+            if(!partSaves.TryGetValue(key,out partSaveData))
             {
-                partData = Activator.CreateInstance(type);
+                partSaveData = Activator.CreateInstance(type);
             }
-            return partData;
+            return partSaveData;
         }
 
         public static string ToJson()
         {
-            return JsonMapper.ToJson(partConfigs);
+            return JsonMapper.ToJson(partSaves);
         }
 
         public static void Save()

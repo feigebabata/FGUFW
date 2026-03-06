@@ -2,6 +2,9 @@ using System;
 
 namespace FGUFW.Gameplay
 {
+    /// <summary>
+    /// 标记字段被自动注入
+    /// </summary>
     public class InjectAttribute : Attribute
     {
         public InjectField Field = InjectField.Default;

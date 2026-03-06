@@ -19,12 +19,12 @@ namespace FGUFW.ExcelUtils
 
             var configClass = new StringBuilder();
 
-            var className = Path.GetFileNameWithoutExtension(path);
+            var fileName = Path.GetFileNameWithoutExtension(path);
             var directory = Path.GetDirectoryName(path);
 
             foreach (var sheet in excel)
             {
-                setConfigText(sheet, configClass);
+                setConfigText(fileName,sheet, configClass);
             }
 
             string scriptText =
@@ -37,7 +37,7 @@ using System;
 namespace ExcelConfig
 {
     [Serializable]
-    public class |CLASS_NAME|
+    public class |FILE_NAME|
     {
 
 |CONFIG_CLASS|
@@ -46,9 +46,9 @@ namespace ExcelConfig
 }
 ";
 
-            scriptText = scriptText.Replace("|CLASS_NAME|", className);
+            scriptText = scriptText.Replace("|FILE_NAME|", fileName);
             scriptText = scriptText.Replace("|CONFIG_CLASS|", configClass.ToString());
-            var scriptPath = Path.Combine(directory, $"{className}.cs");
+            var scriptPath = Path.Combine(directory, $"{fileName}.cs");
             File.WriteAllText(scriptPath, scriptText);
 
             // AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceUpdate);
@@ -57,7 +57,7 @@ namespace ExcelConfig
 
         }
 
-        static void setConfigText(ISheet sheet, StringBuilder configTexts)
+        static void setConfigText(string fileName,ISheet sheet, StringBuilder configTexts)
         {
             var row = sheet.GetRow(0);
             if (row == default) return;
@@ -71,24 +71,25 @@ namespace ExcelConfig
             switch (collection)
             {
                 case "List":
-                    setConfigTextList(sheet, configTexts);
+                    setConfigTextList(fileName,sheet, configTexts);
                     break;
                 case "Table":
-                    setConfigTextTable(sheet, configTexts);
+                    setConfigTextTable(fileName,sheet, configTexts);
                     break;
                 case "Single":
-                    setConfigTextSingle(sheet, configTexts);
+                    setConfigTextSingle(fileName,sheet, configTexts);
                     break;
             }
         }
 
-        static void setConfigTextList(ISheet sheet, StringBuilder configTexts)
+        static void setConfigTextList(string fileName,ISheet sheet, StringBuilder configTexts)
         {
 
             var className = sheet.SheetName;
+            var fullClassName = $"ExcelConfig.{fileName}.{className}";
             string scriptText =
 @"
-        public List<|CLASS_NAME|> |CLASS_NAME|s;
+        public List<|FULL_CLASS_NAME|> |CLASS_NAME|s;
         [Serializable]
         public class |CLASS_NAME|
         {
@@ -118,19 +119,21 @@ namespace ExcelConfig
             var key = types.GetCell(0).ToString();
 
             scriptText = scriptText.Replace("|CLASS_NAME|", className);
+            scriptText = scriptText.Replace("|FULL_CLASS_NAME|", fullClassName);
             scriptText = scriptText.Replace("|KEY|", key);
             scriptText = scriptText.Replace("|MENBERS|", menbers.ToString());
 
             configTexts.AppendLine(scriptText);
         }
 
-        static void setConfigTextTable(ISheet sheet, StringBuilder configTexts)
+        static void setConfigTextTable(string fileName,ISheet sheet, StringBuilder configTexts)
         {
 
             var className = sheet.SheetName;
+            var fullClassName = $"ExcelConfig.{fileName}.{className}";
             string scriptText =
 @"
-        public Table<|KEY|,|CLASS_NAME|> |CLASS_NAME|s;
+        public Table<|KEY|,|FULL_CLASS_NAME|> |CLASS_NAME|s;
         [Serializable]
         public class |CLASS_NAME|
         {
@@ -160,19 +163,21 @@ namespace ExcelConfig
             var key = types.GetCell(0).ToString();
 
             scriptText = scriptText.Replace("|CLASS_NAME|", className);
+            scriptText = scriptText.Replace("|FULL_CLASS_NAME|", fullClassName);
             scriptText = scriptText.Replace("|KEY|", key);
             scriptText = scriptText.Replace("|MENBERS|", menbers.ToString());
 
             configTexts.AppendLine(scriptText);
         }
 
-        static void setConfigTextSingle(ISheet sheet, StringBuilder configTexts)
+        static void setConfigTextSingle(string fileName,ISheet sheet, StringBuilder configTexts)
         {
 
             var className = sheet.SheetName;
+            var fullClassName = $"ExcelConfig.{fileName}.{className}";
             string scriptText =
 @"
-        public |CLASS_NAME| |CLASS_NAME|Single;
+        public |FULL_CLASS_NAME| |CLASS_NAME|Single;
         [Serializable]
         public class |CLASS_NAME|
         {
@@ -193,6 +198,7 @@ namespace ExcelConfig
             }
 
             scriptText = scriptText.Replace("|CLASS_NAME|", className);
+            scriptText = scriptText.Replace("|FULL_CLASS_NAME|", fullClassName);
             scriptText = scriptText.Replace("|MENBERS|", menbers.ToString());
 
             configTexts.AppendLine(scriptText);
