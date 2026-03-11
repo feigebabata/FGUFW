@@ -81,16 +81,6 @@ namespace FGUFW
             self.gameObject.SetActive(b);
         }
 
-        public static void Destroy(this Component self)
-        {
-            GameObject.Destroy(self);
-        }
-
-        public static void DestroyGObj(this Component self)
-        {
-            GameObject.Destroy(self.gameObject);
-        }
-
 #if UNITY_EDITOR
 
         [MenuItem("CONTEXT/MonoBehaviour/AutoRefField")]
