@@ -52,7 +52,7 @@ namespace FGUFW.I18N
             }
 
             var outPath = Path.Combine(Application.dataPath, "ECJsonData","I18N.json");
-            File.WriteAllText(outPath,jsonData.ToJson());
+            File.WriteAllText(outPath,jsonData.ToJson(true));
 
             I18N_Utility.Clear();
 
