@@ -13,7 +13,7 @@ namespace FGUFW.SimpleECS
 
     public interface IComponentBuffer : IDisposable
     {
-        void AddDefault();
+        void AddDefault(Transform transform=default);
         void RemoveAtSwapBack(int index);
     }
     
@@ -48,16 +48,9 @@ namespace FGUFW.SimpleECS
             List = new TransformAccessArray(initialCapacity);
         }
 
-        public void AddDefault()
+        public void AddDefault(Transform transform)
         {
-            if(List.length>0)
-            {
-                List.Add(List[List.length-1]);
-            }
-            else
-            {
-                List.Add(null);//会出警告
-            }
+            List.Add(transform);
         }
 
         public void RemoveAtSwapBack(int index)
@@ -83,7 +76,7 @@ namespace FGUFW.SimpleECS
             }
         }
 
-        public void AddDefault()
+        public void AddDefault(Transform transform=default)
         {
             if (!ComponentMeta<T>.IsTag && List.IsCreated)
             {

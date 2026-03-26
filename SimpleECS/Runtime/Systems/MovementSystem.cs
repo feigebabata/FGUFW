@@ -49,13 +49,18 @@ namespace FGUFW.SimpleECS
 
             public void Execute(int index, TransformAccess transform)
             {
-                if(!EntityArchetypes[index].HasAll(FilterArchetype))return;
+                if (!EntityArchetypes[index].HasAll(FilterArchetype)) return;
+                execute(index, transform);
+            }
 
+            private void execute(int index, TransformAccess transform)
+            {
                 var velocity = Velocities[index].Value;
                 float3 position = transform.position;
-                position += velocity*DeltaTime;
+                position += velocity * DeltaTime;
                 transform.position = position;
             }
+
         }
     }
 }

@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace LitJson
 {
     public static class LitJsonExtensions
@@ -7,9 +9,13 @@ namespace LitJson
             return JsonMapper.ToObject<T>(self);
         }
         
-        public static string  ToJson(this object self)
+        public static string ToJson(this object self)
         {
-            return JsonMapper.ToJson(self);
+            var sb = new StringBuilder();
+            var writer = new JsonWriter(sb);
+            JsonMapper.ToJson(self,writer);
+
+            return sb.ToString();
         }
     }
 }

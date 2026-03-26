@@ -14,9 +14,8 @@ public class SimpleECSTest : MonoBehaviour
     {
         _world = new SimpleWorld(100);
 
-        var entityId = _world.CreateEntity();
+        var entityId = _world.CreateEntity(Cube.transform);
         _world.SetComponent(entityId,new Velocity(){Value=new float3(0,0.25f,0)});
-        _world.SetTransformAccess(entityId,Cube.transform);
     }
 
     // Update is called once per frame

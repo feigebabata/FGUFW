@@ -72,30 +72,32 @@ namespace FGUFW.SimpleECS
         public void SetComponent<T>(int entityId,T comp) where T:unmanaged,IComponent
         {
             var comp_idx = EntityIdToComponentsIndex(entityId);
-            var entityArchetype = EntityArchetypes[comp_idx];
-            var typeId = ComponentMeta<T>.Id;
 
             var components = GetComponents<T>();
             components[comp_idx] = comp;
 
-            entityArchetype.Add(typeId);
-            EntityArchetypes[comp_idx] = entityArchetype;
+            SetEntityArchetype(entityId,ComponentMeta<T>.Id);
         }
 
         public void SetTransformAccess(int entityId,Transform comp)
         {
             var comp_idx = EntityIdToComponentsIndex(entityId);
-            var entityArchetype = EntityArchetypes[comp_idx];
-            var typeId = TransformAccessBuffer.MetaId;
 
             var components = GetTransformAccessArray();
             components[comp_idx] = comp;
 
+            SetEntityArchetype(entityId,TransformAccessBuffer.MetaId);
+        }
+
+        public void SetEntityArchetype(int entityId,int typeId)
+        {
+            var comp_idx = EntityIdToComponentsIndex(entityId);
+            var entityArchetype = EntityArchetypes[comp_idx];
             entityArchetype.Add(typeId);
             EntityArchetypes[comp_idx] = entityArchetype;
         }
 
-        public int CreateEntity()
+        public int CreateEntity(Transform transform=default)
         {
             int entityId = _nextEntityId++;
             _entity2Indexs.Add(entityId,_entityCount++);
@@ -103,7 +105,12 @@ namespace FGUFW.SimpleECS
             EntityArchetypes.Add(default);
             foreach (var componentBuffer in _componentBuffers.Values)
             {
-                componentBuffer.AddDefault();
+                componentBuffer.AddDefault(transform);
+            }
+
+            if(transform!=default)
+            {
+                SetEntityArchetype(entityId,TransformAccessBuffer.MetaId);
             }
 
             return entityId;

@@ -958,7 +958,7 @@ namespace LitJson
             this.type = type;
         }
 
-        public string ToJson ()
+        public string ToJson (bool prettyPrint=false)
         {
             if (json != null)
                 return json;
@@ -966,6 +966,7 @@ namespace LitJson
             StringWriter sw = new StringWriter ();
             JsonWriter writer = new JsonWriter (sw);
             writer.Validate = false;
+            writer.PrettyPrint = prettyPrint;
 
             WriteJson (this, writer);
             json = sw.ToString ();

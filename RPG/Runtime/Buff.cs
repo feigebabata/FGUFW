@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FGUFW
+namespace FGUFW.RPG
 {
     [Serializable]
     public class Buff
