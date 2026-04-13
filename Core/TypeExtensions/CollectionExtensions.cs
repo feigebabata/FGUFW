@@ -301,5 +301,41 @@ namespace FGUFW
             return self.Length-1;
         }
 
+        public static T Lerp<T>(this T[] self,float rate)
+        {
+            var length = self.Length;
+            int idx = Mathf.Clamp((int)(rate*length),0,length-1);
+            
+            return self[idx];
+        }
+
+        public static T Lerp<T>(this List<T> self,float rate)
+        {
+            var length = self.Count;
+            int idx = Mathf.Clamp((int)(rate*length),0,length-1);
+            
+            return self[idx];
+        }
+
+        public static T Lerp<T>(this T[] self,float rate,Func<T,T,float,T> onLerp)
+        {
+            var length = self.Length;
+            int idx = Mathf.Clamp((int)(rate*length),0,length-1);
+            int nextIdx = Mathf.Clamp(idx+1,0,length-1);
+            var itemLength = 1f/length;
+            rate = rate%itemLength / itemLength;
+            return onLerp(self[idx],self[nextIdx],rate);
+        }
+
+        public static T Lerp<T>(this List<T> self,float rate,Func<T,T,float,T> onLerp)
+        {
+            var length = self.Count;
+            int idx = Mathf.Clamp((int)(rate*length),0,length-1);
+            int nextIdx = Mathf.Clamp(idx+1,0,length-1);
+            var itemLength = 1f/length;
+            rate = rate%itemLength / itemLength;
+            return onLerp(self[idx],self[nextIdx],rate);
+        }
+
     }
 }
