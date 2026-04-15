@@ -11,10 +11,12 @@ namespace FGUFW
             var sprite = self.sprite;
             if(sprite.IsNull())return;
 
-            var size = sprite.textureRect.size;
+            
+            var width = sprite.texture.width;
+            var height = sprite.texture.height;
 
             var sizeDelta = self.rectTransform.sizeDelta;
-            sizeDelta.y = sizeDelta.x * size.y / size.x;
+            sizeDelta.y = sizeDelta.x * height / width;
 
             self.rectTransform.sizeDelta = sizeDelta;
         }
@@ -24,12 +26,36 @@ namespace FGUFW
             var sprite = self.sprite;
             if(sprite.IsNull())return;
 
-            var size = sprite.textureRect.size;
+            var width = sprite.texture.width;
+            var height = sprite.texture.height;
 
             var sizeDelta = self.rectTransform.sizeDelta;
-            sizeDelta.x = sizeDelta.y * size.x / size.y;
+            sizeDelta.x = sizeDelta.y * width / height;
 
             self.rectTransform.sizeDelta = sizeDelta;
         }
+
+
+
+#if UNITY_EDITOR
+
+        [UnityEditor.MenuItem("CONTEXT/Image/SetSizeFlexibleWidth")]
+        static void setSizeFlexibleWidth(UnityEditor.MenuCommand command)
+        {
+            var comp = (Image)command.context;
+            comp.SetSizeFlexibleWidth();
+            UnityEditor.EditorUtility.SetDirty(comp);
+        }
+
+        [UnityEditor.MenuItem("CONTEXT/Image/SetSizeFlexibleHeight")]
+        static void setSizeFlexibleHeight(UnityEditor.MenuCommand command)
+        {
+            var comp = (Image)command.context;
+            comp.SetSizeFlexibleHeight();
+            UnityEditor.EditorUtility.SetDirty(comp);
+        }
+
+#endif
+
     }
 }
