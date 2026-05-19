@@ -35,6 +35,14 @@ namespace FGUFW
             self.rectTransform.sizeDelta = sizeDelta;
         }
 
+        public static void SetGameobjectNameBySpriteName(this Image self)
+        {
+            var sprite = self.sprite;
+            if(sprite.IsNull())return;
+
+            self.name = sprite.name;
+        }
+
 
 
 #if UNITY_EDITOR
@@ -52,6 +60,14 @@ namespace FGUFW
         {
             var comp = (Image)command.context;
             comp.SetSizeFlexibleHeight();
+            UnityEditor.EditorUtility.SetDirty(comp);
+        }
+
+        [UnityEditor.MenuItem("CONTEXT/Image/NameBySprite")]
+        static void setGameobjectNameBySpriteName(UnityEditor.MenuCommand command)
+        {
+            var comp = (Image)command.context;
+            comp.SetGameobjectNameBySpriteName();
             UnityEditor.EditorUtility.SetDirty(comp);
         }
 
