@@ -10,8 +10,9 @@ namespace FGUFW
     {
         T Load<T>(string path);
         UniTask<T> LoadAsync<T>(string path,CancellationToken cancellationToken);
-        GameObject Copy(string path,Transform parent);
-        UniTask<GameObject> CopyAsync(string path,Transform parent,CancellationToken cancellationToken);
+        GameObject Instantiate(string path,Transform parent);
+        UniTask<GameObject> InstantiateAsync(string path,Transform parent,CancellationToken cancellationToken);
         UniTask LoadSceneAsync(string path,LoadSceneMode loadSceneMode = LoadSceneMode.Single);
+        void ReleaseInstance(GameObject game);
     }
 }
