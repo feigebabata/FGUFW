@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FGUFW.Gameplay
+namespace FGUFW
 {
     /// <summary>
     /// 无需设定Order 只需设定Layer
