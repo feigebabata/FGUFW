@@ -27,19 +27,24 @@ namespace FGUFW
             return assetLoader.Load<T>(path);
         }
 
-        public static UniTask<GameObject> CopyAsync(string path,Transform parent)
+        public static UniTask<GameObject> InstantiateAsync(string path,Transform parent)
         {
-            return assetLoader.CopyAsync(path,parent,cancellationTokenSource.Token);
+            return assetLoader.InstantiateAsync(path,parent,cancellationTokenSource.Token);
         }
 
-        public static GameObject Copy(string path,Transform parent)
+        public static GameObject Instantiate(string path,Transform parent)
         {
-            return assetLoader.Copy(path,parent);
+            return assetLoader.Instantiate(path,parent);
         }
 
         public static UniTask LoadSceneAsync(string path,LoadSceneMode loadSceneMode = LoadSceneMode.Single)
         {
             return assetLoader.LoadSceneAsync(path,loadSceneMode);
+        }
+
+        public static void ReleaseInstance(GameObject instance)
+        {
+            assetLoader.ReleaseInstance(instance);
         }
 
 
