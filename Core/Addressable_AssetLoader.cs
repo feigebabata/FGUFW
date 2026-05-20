@@ -18,12 +18,12 @@ namespace FGUFW
         {
             return await Addressables.LoadAssetAsync<T>(path).WithCancellation(cancellationToken);
         }
-        public GameObject Copy(string path, Transform parent)
+        public GameObject Instantiate(string path, Transform parent)
         {
             return Addressables.InstantiateAsync(path,parent).WaitForCompletion();
         }
 
-        public async UniTask<GameObject> CopyAsync(string path, Transform parent, CancellationToken cancellationToken)
+        public async UniTask<GameObject> InstantiateAsync(string path, Transform parent, CancellationToken cancellationToken)
         {
             return await Addressables.InstantiateAsync(path,parent).WithCancellation(cancellationToken);
         }
@@ -33,5 +33,11 @@ namespace FGUFW
         {
             return Addressables.LoadSceneAsync(path,loadSceneMode).ToUniTask();
         }
+
+        public void ReleaseInstance(GameObject instance)
+        {
+            Addressables.ReleaseInstance(instance);
+        }
+
     }
 }
