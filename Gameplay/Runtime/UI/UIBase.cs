@@ -15,13 +15,13 @@ namespace FGUFW.Gameplay
 
         public virtual void Show()
         {
-            canvas.OrderIssue();
+            canvas.RegisterSort();
             gameObject.SetActive(true);
         }
 
         public virtual void Hide()
         {
-            canvas.OrderRecycle();
+            canvas.UnregisterSort();
             gameObject.SetActive(false);
         }    
     }
