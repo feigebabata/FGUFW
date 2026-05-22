@@ -376,8 +376,6 @@ namespace FGUFW
 #region 六边形
 /*
 尖朝上的六边形 
-xz坐标系
-
 */
         public const float HEX_RADIUS_OUT2INN = 0.866025404f;
 
@@ -387,7 +385,7 @@ xz坐标系
         /// <param name="center">中心点</param>
         /// <param name="outRadius">外径</param>
         /// <param name="vectorsCache">顶点缓存 length=6</param>
-        public static void GenerateHex(Vector3 center,float outRadius,Vector3[] vectorsCache)
+        public static void GenerateHex(Vector2 center,float outRadius,Vector2[] vectorsCache)
         {
             const int length = 6;
             if(vectorsCache?.Length!=length)return;
@@ -395,7 +393,7 @@ xz坐标系
             for (int i = 0; i < length; i++)
             {
                 float angle = i * 60f * Mathf.Deg2Rad;
-                vectorsCache[i] = center + new Vector3(outRadius * Mathf.Sin(angle),center.y,outRadius * Mathf.Cos(angle));
+                vectorsCache[i] = center + new Vector2(outRadius * Mathf.Sin(angle),outRadius * Mathf.Cos(angle));
             }
         }
 
@@ -405,12 +403,12 @@ xz坐标系
         /// <param name="pointInHexLocalPosition"></param>
         /// <param name="outRadius"></param>
         /// <returns></returns>
-        public static Vector3Int PointInHexIndex(Vector3 pointInHexLocalPosition,float outRadius)
+        public static Vector3Int PointInHexIndex(Vector2 pointInHexLocalPosition,float outRadius)
         {
             float innRadius = outRadius*HEX_RADIUS_OUT2INN;
 
             float point_x = pointInHexLocalPosition.x;
-            float point_y = pointInHexLocalPosition.z;
+            float point_y = pointInHexLocalPosition.y;
 
             float index_x = point_x / (innRadius*2);
             float index_y = -index_x;
@@ -425,7 +423,6 @@ xz坐标系
 
             if(iX+iY+iZ != 0)
             {
-                // Debug.LogWarning($"{iX},{iY},{iZ}");
                 float dX = Mathf.Abs(index_x-iX);
                 float dY = Mathf.Abs(index_y-iY);
                 float dZ = Mathf.Abs(-(index_x+index_y-iZ));
@@ -438,7 +435,6 @@ xz坐标系
                 {
                     iZ = -(iX + iY);
                 }
-                // Debug.LogWarning($"{iX},{iY},{iZ}");
             }
             
             return new Vector3Int(iX,iY,iZ);
@@ -450,17 +446,17 @@ xz坐标系
         /// <param name="hexIndex"></param>
         /// <param name="outRadius"></param>
         /// <returns></returns>
-        public static Vector3 HexIndexLocalPosition(Vector3Int hexIndex,float outRadius)
+        public static Vector2 HexIndexLocalPosition(Vector3Int hexIndex,float outRadius)
         {
             float innRadius = outRadius*HEX_RADIUS_OUT2INN;
 
             float space_x = innRadius*2;
             float space_y = outRadius*1.5f;
 
-            float pz = hexIndex.z*space_y;
+            float py = hexIndex.z*space_y;
             float px = hexIndex.z*innRadius + hexIndex.x*space_x;
 
-            return new Vector3(px,0,pz);
+            return new Vector2(px,py);
         }
 
         /// <summary>
@@ -470,16 +466,16 @@ xz坐标系
         /// <param name="hexIndexsCache"></param>
         public static void GenerateCellularHexIndex(int radius,List<Vector3Int> hexIndexsCache)
         {
-            // int count = radius*2-1;
-            // for (int i = 0; i < radius-1; i++)
-            // {
-            //     count += (radius+i)*2;
-            // }
+            //从内层向外层绕圈生成
 
-            hexIndexsCache.Clean();
+            hexIndexsCache.Clear();
 
+            //第一层 直接加进去
             hexIndexsCache.Add(new Vector3Int(0,0,0));
 
+            //从第二层开始绕圈 
+            //有6个斜边 
+            //第r层 每个斜边跟着起点延斜边方向添加r-1个节点 最后一个斜边要闭环所以添加r-2个点
             for (int r = 2; r <= radius; r++)
             {
                 //从左上顺时针生成
@@ -489,7 +485,7 @@ xz坐标系
                 idx.y = -idx.z;
 
                 hexIndexsCache.Add(idx);
-                    
+                
                 for (int i = 1; i < r; i++)
                 {
                     idx.x += 1;
@@ -520,7 +516,7 @@ xz坐标系
                     idx.y -= 1;
                     hexIndexsCache.Add(idx);
                 }
-                for (int i = 1; i < r-1; i++)
+                for (int i = 2; i < r; i++)
                 {
                     idx.x += 1;
                     idx.y -= 1;
