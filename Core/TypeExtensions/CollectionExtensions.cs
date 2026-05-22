@@ -7,23 +7,13 @@ namespace FGUFW
 {
     public static class CollectionExtensions
     {
-        public static T Random<T>(this List<T> self)
+        public static T Random<T>(this IList<T> self)
         {
             if (self == null || self.Count == 0)
             {
-                return default(T);
+                return default;
             }
             int idx = UnityEngine.Random.Range(0, self.Count);
-            return self[idx];
-        }
-
-        public static T Random<T>(this T[] self)
-        {
-            if (self == null || self.Length == 0)
-            {
-                return default(T);
-            }
-            int idx = UnityEngine.Random.Range(0, self.Length);
             return self[idx];
         }
 
@@ -69,30 +59,6 @@ namespace FGUFW
         /// <summary>
         /// 按权重随机
         /// </summary>
-        /// <param name="collection"></param>
-        /// <param name="getWeight"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static T RandomByWeight<T>(this IEnumerable collection, Func<T, float> getWeight)
-        {
-            float maxValue = 0;
-            foreach (T item in collection)
-            {
-                maxValue += getWeight(item);
-            }
-            float val = UnityEngine.Random.Range(0, maxValue);
-            float weight = 0;
-            foreach (T item in collection)
-            {
-                weight += getWeight(item);
-                if (val < weight)
-                {
-                    return item;
-                }
-            }
-            return default(T);
-        }
-
         public static T RandomByWeight<T>(this IEnumerable<T> collection, Func<T, float> getWeight)
         {
             float maxValue = 0;
@@ -165,9 +131,7 @@ namespace FGUFW
         {
             int index = self.IndexOf(item);
             if (index == -1) return;
-            int backIndex = self.Count - 1;
-            self[index] = self[backIndex];
-            self.RemoveAt(backIndex);
+            self.RemoveAtSwapBack(index);
         }
 
         public static void RemoveSwapBack<T>(this List<T> self, Predicate<T> match)
@@ -177,19 +141,6 @@ namespace FGUFW
             int backIndex = self.Count - 1;
             self[index] = self[backIndex];
             self.RemoveAt(backIndex);
-        }
-
-        public static void RemoveAllSwapBack<T>(this List<T> self, Predicate<T> match)
-        {
-            int length = self.Count;
-            for (int i = 0; i < length; i++)
-            {
-                int index = self.FindIndex(match);
-                if (index == -1) return;
-                int backIndex = self.Count - 1;
-                self[index] = self[backIndex];
-                self.RemoveAt(backIndex);
-            }
         }
 
         public static void ReplaceAllData<T>(this List<T> self, T[] array)
@@ -214,14 +165,6 @@ namespace FGUFW
             }
         }
 
-        public static void Clean<T>(this List<T> self)
-        {
-            for (int i = self.Count - 1; i >= 0; i--)
-            {
-                self.RemoveAt(i);
-            }
-        }
-
         public static void Set<K, V>(this Dictionary<K, V> self, K key, V value)
         {
             if (!self.TryAdd(key, value))
@@ -238,12 +181,12 @@ namespace FGUFW
             return v;
         }
 
-        public static V GetOrNew<K, V>(this Dictionary<K, V> self, K key)
+        public static V GetOrNew<K, V>(this Dictionary<K, V> self, K key) where V:class,new()
         {
             V v = default;
             if(!self.TryGetValue(key, out v))
             {
-                v = typeof(V).Instance<V>();
+                v = new V();
                 self.Add(key,v);
             }
 
@@ -252,12 +195,12 @@ namespace FGUFW
 
         public static void MoveTo<T>(this List<T> self, List<T> ls)
         {
-            ls.Clean();
+            ls.Clear();
             foreach (var item in self)
             {
                 ls.Add(item);
             }
-            self.Clean();
+            self.Clear();
         }
 
         /// <summary>
@@ -265,7 +208,7 @@ namespace FGUFW
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
-        public static void Shuffle2<T>(this List<T> self)
+        public static void Shuffle<T>(this IList<T> self)
         {
             for (int i = 0; i < self.Count; i++)
             {
@@ -276,21 +219,6 @@ namespace FGUFW
             }
         }
 
-        /// <summary>
-        /// 洗牌 打乱顺序 然后从头到尾就是一种随机不重复效果
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="self"></param>
-        public static void Shuffle<T>(this T[] self)
-        {
-            for (int i = 0; i < self.Length; i++)
-            {
-                int idx = RandomExtensions.range(0, self.Length);
-                var temp = self[i];
-                self[i] = self[idx];
-                self[idx] = temp;
-            }
-        }
 
         public static void Sort<T>(this T[] self, Comparison<T> comparison)
         {
