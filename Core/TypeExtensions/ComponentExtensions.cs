@@ -27,8 +27,8 @@ namespace FGUFW
 
                 if(fieldType.IsSubclassOf(compType))
                 {
-                    targetCache.Clean();
-                    similarValues.Clean();
+                    targetCache.Clear();
+                    similarValues.Clear();
                     self.transform.FindSimilar(fieldName,targetCache,similarValues);
 
                     foreach (var itemT in targetCache)
@@ -43,8 +43,8 @@ namespace FGUFW
                 }
                 else if(gObjType == fieldType)
                 {
-                    targetCache.Clean();
-                    similarValues.Clean();
+                    targetCache.Clear();
+                    similarValues.Clear();
                     self.transform.FindSimilar(fieldName,targetCache,similarValues);
                     if(targetCache.Count>0)
                     {

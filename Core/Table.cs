@@ -34,7 +34,7 @@ namespace FGUFW
         {
 
 #if UNITY_EDITOR
-            Items.Clean();
+            Items.Clear();
             foreach (var (k, v) in this)
             {
                 Items.Add(new ItemData

@@ -276,7 +276,7 @@ namespace FGUFW
 
         public static void ToList(this Transform self,List<Transform> cache)
         {
-            cache.Clean();
+            cache.Clear();
             foreach (Transform item in self)
             {
                 cache.Add(item);
@@ -294,7 +294,7 @@ namespace FGUFW
         static List<Transform> destroyChildsCache = new List<Transform>();
         public static void DestroyChilds(this Transform self)
         {
-            destroyChildsCache.Clean();
+            destroyChildsCache.Clear();
 
             foreach (Transform item in self)
             {
@@ -309,7 +309,7 @@ namespace FGUFW
 
         public static void DestroyChilds(this Transform self,Predicate<Transform> match)
         {
-            destroyChildsCache.Clean();
+            destroyChildsCache.Clear();
 
             foreach (Transform item in self)
             {
