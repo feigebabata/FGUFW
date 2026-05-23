@@ -10,6 +10,7 @@ namespace FGUFW.Gameplay
         void Awake()
         {
             canvas = GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceCamera;
             canvas.worldCamera = UICamera.I.Camera;
         }
 
@@ -24,6 +25,11 @@ namespace FGUFW.Gameplay
             canvas.UnregisterSort();
             gameObject.SetActive(false);
         }    
+
+        public void Release()
+        {
+            AssetHelper.ReleaseInstance(gameObject);
+        }
     }
 
 }

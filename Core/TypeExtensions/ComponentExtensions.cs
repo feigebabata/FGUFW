@@ -56,16 +56,6 @@ namespace FGUFW
             }
         }
 
-        public static T Comp<T>(this Component self)
-        {
-            return self.GetComponent<T>();
-        }
-
-        public static T Comp<T>(this GameObject self)
-        {
-            return self.GetComponent<T>();
-        }
-
         public static Transform GetChild(this Component self,int childIndex)
         {
             return self.transform.GetChild(childIndex);
@@ -74,6 +64,16 @@ namespace FGUFW
         public static T GetChild<T>(this Component self,int childIndex)
         {
             return self.transform.GetChild(childIndex).GetComponent<T>();
+        }
+
+        public static Transform GetChild(this Component self,string path)
+        {
+            return self.transform.Find(path);
+        }
+
+        public static T GetChild<T>(this Component self,string path)
+        {
+            return self.transform.Find(path).GetComponent<T>();
         }
 
         public static void SetActive(this Component self,bool b)

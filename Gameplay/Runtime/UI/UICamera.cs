@@ -10,7 +10,7 @@ namespace FGUFW.Gameplay
         protected override bool IsDontDestroyOnLoad()
         {
             this.Camera = GetComponent<Camera>();
-            return false;
+            return true;
         }
     }
 }
