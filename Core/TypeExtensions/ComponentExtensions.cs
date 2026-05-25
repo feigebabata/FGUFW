@@ -13,7 +13,7 @@ namespace FGUFW
         public static void AutoRefField(this Component self)
         {
             var type = self.GetType();
-            var fields = type.GetFields(BindingFlags.Public|BindingFlags.Instance);
+            var fields = type.GetFieldsByCache(TypeExtensions.PUBLIC_MEMBER);
             var compType = typeof(Component);
             var gObjType = typeof(GameObject);
 
