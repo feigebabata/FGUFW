@@ -69,7 +69,7 @@ namespace FGUFW
         public static void TryAddAllBtnListener(this MonoBehaviour self,MonoBehaviour listener)
         {
             var type = self.GetType();
-            var fields = type.GetFields(BindingFlags.Public|BindingFlags.Instance);
+            var fields = type.GetFieldsByCache(TypeExtensions.PUBLIC_MEMBER);
             var btnType = typeof(Button);
 
             foreach (var fieldInfo in fields)
@@ -91,7 +91,7 @@ namespace FGUFW
         public static void TryRemoveAllBtnListener(this MonoBehaviour self)
         {
             var type = self.GetType();
-            var fields = type.GetFields(BindingFlags.Public|BindingFlags.Instance);
+            var fields = type.GetFieldsByCache(TypeExtensions.PUBLIC_MEMBER);
             var btnType = typeof(Button);
 
             foreach (var fieldInfo in fields)
