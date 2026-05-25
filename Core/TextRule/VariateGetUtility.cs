@@ -19,7 +19,7 @@ namespace FGUFW
             var members = new List<MemberInfo>();
             variateMembers.Add(type,members);
             
-            foreach (FieldInfo f_info in type.GetFields (BindingFlags.Instance | BindingFlags.Public  | BindingFlags.NonPublic))
+            foreach (FieldInfo f_info in type.GetFieldsByCache())
             {
                 if(f_info.GetCustomAttribute<VariateGetAttribute>()!=default)
                 {
