@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -7,8 +7,12 @@ namespace FGUFW
     public static class TypeExtensions
     {
         private static Type[] reflectionNoneAges = new Type[0];
+
         private const BindingFlags All_MEMBER = BindingFlags.NonPublic|BindingFlags.Public|BindingFlags.Instance;
         private const BindingFlags STATIC_MEMBER = BindingFlags.NonPublic|BindingFlags.Public|BindingFlags.Static;
+        private const BindingFlags PUBLIC_MEMBER = BindingFlags.Public|BindingFlags.Instance;
+
+        private static Dictionary<BindingFlags,Dictionary<Type,FieldInfo[]>> fieldInfoCache = new();
 
         /// <summary>
         /// 比较数据结构公开字段是否一致
@@ -165,6 +169,19 @@ namespace FGUFW
         public static T GetAttribute<T>(this object self) where T:Attribute
         {
             return self.GetType().GetCustomAttribute<T>();
+        }
+
+        public static FieldInfo[] GetFieldsByCache(this Type self,BindingFlags bindingFlags = All_MEMBER)
+        {
+            var flagDict = fieldInfoCache.GetOrNew(bindingFlags);
+            FieldInfo[] fields;
+            if(!flagDict.TryGetValue(self,out fields))
+            {
+                fields = self.GetFields(bindingFlags);
+                flagDict.Add(self,fields);
+            }
+
+            return fields;
         }
 
     }
