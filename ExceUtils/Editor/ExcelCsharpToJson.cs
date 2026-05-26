@@ -9,6 +9,7 @@ using NPOI.XSSF.UserModel;
 using UnityEditor;
 using UnityEditor.AssetImporters;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace FGUFW.ExcelUtils
 {
@@ -71,7 +72,7 @@ namespace FGUFW.ExcelUtils
             int maxCellIdx = sheet.GetRow(1).LastCellNum;
 
             //过滤有效列 type列为空则忽略
-            var cellIdxs = new List<int>(maxCellIdx);
+            var cellIdxs = ListPool<int>.Get();
             for (int ci = 0; ci < maxCellIdx; ci++)
             {
                 var tVar = types.GetCell(ci);
