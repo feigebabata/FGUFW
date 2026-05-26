@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine.Playables;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine.Pool;
 
 namespace FGUFW
 {
@@ -17,8 +18,8 @@ namespace FGUFW
             var compType = typeof(Component);
             var gObjType = typeof(GameObject);
 
-            List<Transform> targetCache = new List<Transform>();
-            List<float> similarValues = new List<float>();
+            List<Transform> targetCache = ListPool<Transform>.Get();
+            List<float> similarValues = ListPool<float>.Get();
 
             foreach (var field in fields)
             {
