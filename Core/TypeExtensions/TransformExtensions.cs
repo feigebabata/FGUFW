@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace FGUFW
 {
@@ -212,7 +213,7 @@ namespace FGUFW
 
         public static void Sort<T>(this Transform t,Comparison<T> comparison) where T:MonoBehaviour
         {
-            List<T> childs = new List<T>(t.childCount);
+            List<T> childs = ListPool<T>.Get();
             foreach (Transform item in t)
             {
                 childs.Add(item.GetComponent<T>());
@@ -291,17 +292,17 @@ namespace FGUFW
             }
         }
 
-        static List<Transform> destroyChildsCache = new List<Transform>();
+
         public static void DestroyChilds(this Transform self)
         {
-            destroyChildsCache.Clear();
+            var des = ListPool<Transform>.Get();
 
             foreach (Transform item in self)
             {
-                destroyChildsCache.Add(item);
+                des.Add(item);
             }
 
-            foreach (var item in destroyChildsCache)
+            foreach (var item in des)
             {
                 GameObject.Destroy(item.gameObject);
             }
@@ -309,14 +310,14 @@ namespace FGUFW
 
         public static void DestroyChilds(this Transform self,Predicate<Transform> match)
         {
-            destroyChildsCache.Clear();
+            var des = ListPool<Transform>.Get();
 
             foreach (Transform item in self)
             {
-                destroyChildsCache.Add(item);
+                des.Add(item);
             }
 
-            foreach (var item in destroyChildsCache)
+            foreach (var item in des)
             {
                 if(match(item))
                 {
