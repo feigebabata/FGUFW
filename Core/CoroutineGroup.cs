@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
+using UnityEngine.Pool;
 
 namespace FGUFW
 {
@@ -14,11 +14,21 @@ namespace FGUFW
         public CoroutineGroup(MonoBehaviour mb)
         {
             _mb = mb;
-            _ls = new List<Coroutine>();
+            _ls = ListPool<Coroutine>.Get();
         }
 
         public Coroutine Start(IEnumerator enumerator)
         {
+            if(_mb==default)
+            {
+                throw new InvalidOperationException("CoroutineGroup未正确初始化");
+            }
+
+            if(_ls==default)
+            {
+                throw new ObjectDisposedException("CoroutineGroup已释放");
+            }
+
             var c = _mb.StartCoroutine(enumerator);
             _ls.Add(c);
             return c;
@@ -27,10 +37,23 @@ namespace FGUFW
 
         public IEnumerator WaitAllStop()
         {
+            if(_mb==default)
+            {
+                throw new InvalidOperationException("CoroutineGroup未正确初始化");
+            }
+
+            if(_ls==default)
+            {
+                throw new ObjectDisposedException("CoroutineGroup已释放");
+            }
+
             foreach (var item in _ls)
             {
                 yield return item;
             }
+
+            ListPool<Coroutine>.Release(_ls);
+            _ls = default;
         }
 
     }
